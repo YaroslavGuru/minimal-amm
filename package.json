@@ -1,0 +1,28 @@
+{
+  "name": "minimal-amm",
+  "version": "1.0.0",
+  "description": "Minimal constant-product AMM with full Hardhat workflow",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx hardhat compile",
+    "test": "npx hardhat test",
+    "coverage": "npx hardhat coverage",
+    "lint": "npx hardhat check",
+    "deploy": "node scripts/deploy.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YaroslavGuru/minimal-amm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YaroslavGuru/minimal-amm/issues"
+  },
+  "homepage": "https://github.com/YaroslavGuru/minimal-amm#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.1.0",
+    "hardhat": "^2.26.0"
+  }
+}
