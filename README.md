@@ -1,4 +1,4 @@
-# Minimal AMM (Day 4)
+# Minimal AMM 
 
 A production-ready, minimal constant-product AMM inspired by Uniswap v2. Includes Solidity contracts, LP token logic, tests, docs, and deployment workflow.
 
