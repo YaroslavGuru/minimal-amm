@@ -1,72 +1,56 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import "./Interfaces.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract LPToken is IERC20 {
-    string public override name;
-    string public override symbol;
-    uint8 public immutable override decimals = 18;
-
-    uint256 public override totalSupply;
-    mapping(address => uint256) public override balanceOf;
-    mapping(address => mapping(address => uint256)) public override allowance;
-
+/**
+ * @title LPToken
+ * @dev ERC20 token representing liquidity provider shares in the AMM pool
+ * @notice Only the AMM contract can mint and burn LP tokens
+ */
+contract LPToken is ERC20 {
     address public immutable amm;
 
-    constructor(string memory _name, string memory _symbol, address _amm) {
-        require(_amm != address(0), "AMM required");
-        name = _name;
-        symbol = _symbol;
+    /**
+     * @dev Constructor that sets the token name, symbol, and AMM address
+     * @param _name Token name
+     * @param _symbol Token symbol
+     * @param _amm Address of the AMM contract that controls minting/burning
+     */
+    constructor(
+        string memory _name,
+        string memory _symbol,
+        address _amm
+    ) ERC20(_name, _symbol) {
+        require(_amm != address(0), "LPToken: zero AMM address");
         amm = _amm;
     }
 
+    /**
+     * @dev Modifier to restrict functions to only the AMM contract
+     */
     modifier onlyAMM() {
-        require(msg.sender == amm, "Only AMM");
+        require(msg.sender == amm, "LPToken: only AMM");
         _;
     }
 
-    function approve(address spender, uint256 amount) public override returns (bool) {
-        allowance[msg.sender][spender] = amount;
-        emit Approval(msg.sender, spender, amount);
-        return true;
-    }
-
-    function transfer(address to, uint256 amount) public override returns (bool) {
-        _transfer(msg.sender, to, amount);
-        return true;
-    }
-
-    function transferFrom(address from, address to, uint256 amount) public override returns (bool) {
-        uint256 allowed = allowance[from][msg.sender];
-        if (allowed != type(uint256).max) {
-            require(allowed >= amount, "Allowance exceeded");
-            allowance[from][msg.sender] = allowed - amount;
-        }
-        _transfer(from, to, amount);
-        return true;
-    }
-
+    /**
+     * @dev Mints LP tokens to a recipient (only callable by AMM)
+     * @param to Address to receive the minted tokens
+     * @param amount Amount of LP tokens to mint
+     */
     function mint(address to, uint256 amount) external onlyAMM {
-        require(amount > 0, "Zero mint");
-        totalSupply += amount;
-        balanceOf[to] += amount;
-        emit Transfer(address(0), to, amount);
+        require(amount > 0, "LPToken: zero mint amount");
+        _mint(to, amount);
     }
 
+    /**
+     * @dev Burns LP tokens from a sender (only callable by AMM)
+     * @param from Address to burn tokens from
+     * @param amount Amount of LP tokens to burn
+     */
     function burn(address from, uint256 amount) external onlyAMM {
-        require(balanceOf[from] >= amount, "Burn amount exceeds balance");
-        balanceOf[from] -= amount;
-        totalSupply -= amount;
-        emit Transfer(from, address(0), amount);
-    }
-
-    function _transfer(address from, address to, uint256 amount) internal {
-        require(to != address(0), "Invalid recipient");
-        require(balanceOf[from] >= amount, "Balance too low");
-        balanceOf[from] -= amount;
-        balanceOf[to] += amount;
-        emit Transfer(from, to, amount);
+        require(balanceOf(from) >= amount, "LPToken: burn amount exceeds balance");
+        _burn(from, amount);
     }
 }
-
