@@ -6,15 +6,18 @@
   "scripts": {
     "build": "npx hardhat compile",
     "test": "npx hardhat test",
+    "test:gas": "REPORT_GAS=true npx hardhat test",
     "coverage": "npx hardhat coverage",
     "lint": "npx hardhat check",
-    "deploy": "node scripts/deploy.js"
+    "lint:sol": "solhint 'contracts/**/*.sol'",
+    "format": "prettier --write 'contracts/**/*.sol' 'test/**/*.ts' 'scripts/**/*.ts'",
+    "deploy": "npx hardhat run scripts/deploy.ts"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/YaroslavGuru/minimal-amm.git"
   },
-  "keywords": [],
+  "keywords": ["amm", "defi", "uniswap", "liquidity-pool", "solidity"],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -23,6 +26,14 @@
   "homepage": "https://github.com/YaroslavGuru/minimal-amm#readme",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
-    "hardhat": "^2.26.0"
+    "@openzeppelin/contracts": "^5.0.2",
+    "@typechain/ethers-v6": "^0.5.1",
+    "@typechain/hardhat": "^9.1.0",
+    "hardhat": "^2.26.0",
+    "prettier": "^3.2.5",
+    "prettier-plugin-solidity": "^1.3.1",
+    "solhint": "^4.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }
