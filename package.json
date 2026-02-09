@@ -15,15 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YaroslavGuru/minimal-amm.git"
+    "url": "git+https://github.com/KuchikiRenji/minimal-amm.git"
   },
-  "keywords": ["amm", "defi", "uniswap", "liquidity-pool", "solidity"],
-  "author": "",
+  "keywords": ["amm", "defi", "uniswap", "liquidity-pool", "solidity", "constant-product", "automated-market-maker", "dex", "ethereum", "hardhat", "openzeppelin"],
+  "author": "KuchikiRenji <KuchikiRenji@outlook.com> (https://github.com/KuchikiRenji)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/YaroslavGuru/minimal-amm/issues"
+    "url": "https://github.com/KuchikiRenji/minimal-amm/issues"
   },
-  "homepage": "https://github.com/YaroslavGuru/minimal-amm#readme",
+  "homepage": "https://github.com/KuchikiRenji/minimal-amm#readme",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
     "@openzeppelin/contracts": "^5.0.2",
